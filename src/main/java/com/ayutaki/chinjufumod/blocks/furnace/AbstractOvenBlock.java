@@ -1,14 +1,11 @@
 package com.ayutaki.chinjufumod.blocks.furnace;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
 import com.ayutaki.chinjufumod.handler.CMEvents;
 import com.ayutaki.chinjufumod.registry.School_Blocks;
 import com.ayutaki.chinjufumod.tileentity.AbstractOvenTileEntity;
-
+import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -58,227 +55,289 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class AbstractOvenBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-	
-	/* Property */
-	public static final DirectionProperty H_FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
-	public static final BooleanProperty LIT = BlockStateProperties.LIT;
-	public static final BooleanProperty WATERLOGGED = BooleanProperty.create("waterlogged");
 
-	protected AbstractOvenBlock(BlockBehaviour.Properties properties) {
-		super(properties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(H_FACING, Direction.NORTH)
-				.setValue(LIT, Boolean.valueOf(false))
-				.setValue(WATERLOGGED, Boolean.valueOf(false)));
-	}
+  /* Property */
+  public static final DirectionProperty H_FACING =
+      DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
+  public static final BooleanProperty LIT = BlockStateProperties.LIT;
+  public static final BooleanProperty WATERLOGGED = BooleanProperty.create("waterlogged");
 
-	/* RightClick Action*/
-	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
-		Direction direction = state.getValue(AbstractOvenBlock.H_FACING);
+  protected AbstractOvenBlock(BlockBehaviour.Properties properties) {
+    super(properties);
+    this.registerDefaultState(
+        this.stateDefinition
+            .any()
+            .setValue(H_FACING, Direction.NORTH)
+            .setValue(LIT, Boolean.valueOf(false))
+            .setValue(WATERLOGGED, Boolean.valueOf(false)));
+  }
 
-		if (!state.getValue(WATERLOGGED)) {
-			
-			switch (direction) {
-			case NORTH:
-			default:
-				if ((worldIn.getBlockState(pos.north()).canBeReplaced() || worldIn.getBlockState(pos.north()).getBlock() instanceof CarpetBlock) &&
-						(worldIn.getBlockState(pos.south()).canBeReplaced() || worldIn.getBlockState(pos.south()).getBlock() instanceof CarpetBlock ||
-								worldIn.getBlockState(pos.south()).getBlock() == School_Blocks.STOVECHIMNEY_joint.get())) {
+  /* RightClick Action*/
+  @Override
+  public InteractionResult use(
+      BlockState state,
+      Level worldIn,
+      BlockPos pos,
+      Player playerIn,
+      InteractionHand hand,
+      BlockHitResult hit) {
+    Direction direction = state.getValue(AbstractOvenBlock.H_FACING);
 
-					CMEvents.soundOpenOven(worldIn, pos);
-					this.openContainer(worldIn, pos, playerIn); }
-				
-				else { CMEvents.textIsBlocked(worldIn, pos, playerIn); }
-				break;
+    if (!state.getValue(WATERLOGGED)) {
 
-			case SOUTH:
-				if ((worldIn.getBlockState(pos.south()).canBeReplaced() || worldIn.getBlockState(pos.south()).getBlock() instanceof CarpetBlock) &&
-						(worldIn.getBlockState(pos.north()).canBeReplaced() || worldIn.getBlockState(pos.north()).getBlock() instanceof CarpetBlock ||
-								worldIn.getBlockState(pos.north()).getBlock() == School_Blocks.STOVECHIMNEY_joint.get())) {
+      switch (direction) {
+        case NORTH:
+        default:
+          if ((worldIn.getBlockState(pos.north()).canBeReplaced()
+                  || worldIn.getBlockState(pos.north()).getBlock() instanceof CarpetBlock)
+              && (worldIn.getBlockState(pos.south()).canBeReplaced()
+                  || worldIn.getBlockState(pos.south()).getBlock() instanceof CarpetBlock
+                  || worldIn.getBlockState(pos.south()).getBlock()
+                      == School_Blocks.STOVECHIMNEY_joint.get())) {
 
-					CMEvents.soundOpenOven(worldIn, pos);
-					this.openContainer(worldIn, pos, playerIn); }
-				
-				else { CMEvents.textIsBlocked(worldIn, pos, playerIn); }
-				break;
+            CMEvents.soundOpenOven(worldIn, pos);
+            this.openContainer(worldIn, pos, playerIn);
+          } else {
+            CMEvents.textIsBlocked(worldIn, pos, playerIn);
+          }
+          break;
 
-			case EAST:
-				if ((worldIn.getBlockState(pos.east()).canBeReplaced() || worldIn.getBlockState(pos.east()).getBlock() instanceof CarpetBlock) &&
-						(worldIn.getBlockState(pos.west()).canBeReplaced() || worldIn.getBlockState(pos.west()).getBlock() instanceof CarpetBlock ||
-								worldIn.getBlockState(pos.west()).getBlock() == School_Blocks.STOVECHIMNEY_joint.get())) {
+        case SOUTH:
+          if ((worldIn.getBlockState(pos.south()).canBeReplaced()
+                  || worldIn.getBlockState(pos.south()).getBlock() instanceof CarpetBlock)
+              && (worldIn.getBlockState(pos.north()).canBeReplaced()
+                  || worldIn.getBlockState(pos.north()).getBlock() instanceof CarpetBlock
+                  || worldIn.getBlockState(pos.north()).getBlock()
+                      == School_Blocks.STOVECHIMNEY_joint.get())) {
 
-				CMEvents.soundOpenOven(worldIn, pos);
-				this.openContainer(worldIn, pos, playerIn); }
-				
-				else { CMEvents.textIsBlocked(worldIn, pos, playerIn); }
-				break;
-				
-			case WEST:
-				if ((worldIn.getBlockState(pos.west()).canBeReplaced() || worldIn.getBlockState(pos.west()).getBlock() instanceof CarpetBlock) &&
-						(worldIn.getBlockState(pos.east()).canBeReplaced() || worldIn.getBlockState(pos.east()).getBlock() instanceof CarpetBlock ||
-								worldIn.getBlockState(pos.east()).getBlock() == School_Blocks.STOVECHIMNEY_joint.get())) {
+            CMEvents.soundOpenOven(worldIn, pos);
+            this.openContainer(worldIn, pos, playerIn);
+          } else {
+            CMEvents.textIsBlocked(worldIn, pos, playerIn);
+          }
+          break;
 
-					CMEvents.soundOpenOven(worldIn, pos);
-					this.openContainer(worldIn, pos, playerIn); }
-				
-				else { CMEvents.textIsBlocked(worldIn, pos, playerIn); }
-				break;
-			} // switch
-		}
+        case EAST:
+          if ((worldIn.getBlockState(pos.east()).canBeReplaced()
+                  || worldIn.getBlockState(pos.east()).getBlock() instanceof CarpetBlock)
+              && (worldIn.getBlockState(pos.west()).canBeReplaced()
+                  || worldIn.getBlockState(pos.west()).getBlock() instanceof CarpetBlock
+                  || worldIn.getBlockState(pos.west()).getBlock()
+                      == School_Blocks.STOVECHIMNEY_joint.get())) {
 
-		/** Waterlogged **/
-		if (state.getValue(WATERLOGGED)) { CMEvents.textIsWaterlogged(worldIn, pos, playerIn); }
-		
-		return InteractionResult.SUCCESS;
-	}
+            CMEvents.soundOpenOven(worldIn, pos);
+            this.openContainer(worldIn, pos, playerIn);
+          } else {
+            CMEvents.textIsBlocked(worldIn, pos, playerIn);
+          }
+          break;
 
-	protected abstract void openContainer(Level worldIn, BlockPos pos, Player playerIn);
+        case WEST:
+          if ((worldIn.getBlockState(pos.west()).canBeReplaced()
+                  || worldIn.getBlockState(pos.west()).getBlock() instanceof CarpetBlock)
+              && (worldIn.getBlockState(pos.east()).canBeReplaced()
+                  || worldIn.getBlockState(pos.east()).getBlock() instanceof CarpetBlock
+                  || worldIn.getBlockState(pos.east()).getBlock()
+                      == School_Blocks.STOVECHIMNEY_joint.get())) {
 
-	@Override
-	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		if (stack.hasCustomHoverName()) {
-			BlockEntity blockentity = worldIn.getBlockEntity(pos);
-			if (blockentity instanceof AbstractOvenTileEntity) {
-				((AbstractOvenTileEntity)blockentity).setCustomName(stack.getHoverName());
-			}
-		}
-	}
+            CMEvents.soundOpenOven(worldIn, pos);
+            this.openContainer(worldIn, pos, playerIn);
+          } else {
+            CMEvents.textIsBlocked(worldIn, pos, playerIn);
+          }
+          break;
+      } // switch
+    }
 
-	@SuppressWarnings("deprecation")
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			BlockEntity blockentity = worldIn.getBlockEntity(pos);
-			if (blockentity instanceof AbstractOvenTileEntity) {
-				if (worldIn instanceof ServerLevel) {
-					Containers.dropContents(worldIn, pos, (AbstractOvenTileEntity)blockentity);
-					((AbstractOvenTileEntity)blockentity).getRecipesToAwardAndPopExperience((ServerLevel)worldIn, Vec3.atCenterOf(pos)); }
-					worldIn.updateNeighbourForOutputSignal(pos, this);
-				}
-			super.onRemove(state, worldIn, pos, newState, isMoving);
-		}
-	}
+    /** Waterlogged * */
+    if (state.getValue(WATERLOGGED)) {
+      CMEvents.textIsWaterlogged(worldIn, pos, playerIn);
+    }
 
-	@Override
-	public boolean hasAnalogOutputSignal(BlockState state) {
-		return true;
-	}
+    return InteractionResult.SUCCESS;
+  }
 
-	@Override
-	public int getAnalogOutputSignal(BlockState state, Level worldIn, BlockPos pos) {
-		return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(worldIn.getBlockEntity(pos));
-	}
+  protected abstract void openContainer(Level worldIn, BlockPos pos, Player playerIn);
 
-	@Override
-	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.MODEL;
-	}
+  @Override
+  public void setPlacedBy(
+      Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    if (stack.hasCustomHoverName()) {
+      BlockEntity blockentity = worldIn.getBlockEntity(pos);
+      if (blockentity instanceof AbstractOvenTileEntity) {
+        ((AbstractOvenTileEntity) blockentity).setCustomName(stack.getHoverName());
+      }
+    }
+  }
 
-	/* Gives a value when placed. +180 .getOpposite() */
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		Level worldIn = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		FluidState fluid = worldIn.getFluidState(pos);
+  @SuppressWarnings("deprecation")
+  public void onRemove(
+      BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    if (!state.is(newState.getBlock())) {
+      BlockEntity blockentity = worldIn.getBlockEntity(pos);
+      if (blockentity instanceof AbstractOvenTileEntity) {
+        if (worldIn instanceof ServerLevel) {
+          Containers.dropContents(worldIn, pos, (AbstractOvenTileEntity) blockentity);
+          ((AbstractOvenTileEntity) blockentity)
+              .getRecipesToAwardAndPopExperience((ServerLevel) worldIn, Vec3.atCenterOf(pos));
+        }
+        worldIn.updateNeighbourForOutputSignal(pos, this);
+      }
+      super.onRemove(state, worldIn, pos, newState, isMoving);
+    }
+  }
 
-		return this.defaultBlockState().setValue(WATERLOGGED, fluid.getType() == Fluids.WATER)
-				.setValue(H_FACING, context.getHorizontalDirection().getOpposite());
-	}
-	
-	/* HORIZONTAL Property */
-	@Override
-	public BlockState rotate(BlockState state, Rotation rotation) {
-		return state.setValue(H_FACING, rotation.rotate(state.getValue(H_FACING)));
-	}
+  @Override
+  public boolean hasAnalogOutputSignal(BlockState state) {
+    return true;
+  }
 
-	@SuppressWarnings("deprecation")
-	public BlockState mirror(BlockState state, Mirror mirror) {
-		return state.rotate(mirror.getRotation(state.getValue(H_FACING)));
-	}
+  @Override
+  public int getAnalogOutputSignal(BlockState state, Level worldIn, BlockPos pos) {
+    return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(worldIn.getBlockEntity(pos));
+  }
 
-	/* Waterlogged */
-	@SuppressWarnings("deprecation")
-	public FluidState getFluidState(BlockState state) {
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-	}
-	
-	@Override
-	public boolean canPlaceLiquid(@Nullable Player playerIn, BlockGetter worldIn, BlockPos pos, BlockState state, Fluid fluid) {
-		return fluid == Fluids.WATER;
-	} // fix 20.2
-	
-	@Override
-	public boolean placeLiquid(LevelAccessor worldIn, BlockPos pos, BlockState state, FluidState fluid) {
-		if (!state.getValue(BlockStateProperties.WATERLOGGED) && fluid.getType() == Fluids.WATER) {
-			if (!worldIn.isClientSide()) {
-				worldIn.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true)), 3);
-				worldIn.scheduleTick(pos, fluid.getType(), fluid.getType().getTickDelay(worldIn)); }
-			return true; }
-		
-		else { return false; }
-	}
-	
-	@Override
-	public ItemStack pickupBlock(@Nullable Player playerIn, LevelAccessor worldIn, BlockPos pos, BlockState state) {
-		if (state.getValue(BlockStateProperties.WATERLOGGED)) {
-			worldIn.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)), 3);
-			
-			if (!state.canSurvive(worldIn, pos)) { worldIn.destroyBlock(pos, true); }
-			return new ItemStack(Items.WATER_BUCKET);
-		}
-		
-		else { return ItemStack.EMPTY; }
-	} // fix 20.2
-	
-	@Override
-	public Optional<SoundEvent> getPickupSound() {
-		return Fluids.WATER.getPickupSound();
-	}
-	
-	/* Update BlockState. */
-	@SuppressWarnings("deprecation")
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos pos, BlockPos facingPos) {
-		if (state.getValue(WATERLOGGED)) {
-			worldIn.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn)); }
-		
-		return super.updateShape(state, facing, facingState, worldIn, pos, facingPos);
-	}
+  @Override
+  public RenderShape getRenderShape(BlockState state) {
+    return RenderShape.MODEL;
+  }
 
-	/* Create Blockstate */
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(H_FACING, LIT, WATERLOGGED);
-	}
-	
-	/* If you walk on it while it's burning, you'll take damage. */
-	public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
+  /* Gives a value when placed. +180 .getOpposite() */
+  @Override
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    Level worldIn = context.getLevel();
+    BlockPos pos = context.getClickedPos();
+    FluidState fluid = worldIn.getFluidState(pos);
 
-		if (state.getValue(LIT) == true) {
-			if (!entityIn.fireImmune() && entityIn instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entityIn)) {
-				entityIn.hurt(worldIn.damageSources().hotFloor(), 1.0F); }
-			
-			super.stepOn(worldIn, pos, state, entityIn); }
-	}
-	
-	/* Play Sound・Particle */
-	@OnlyIn(Dist.CLIENT)
-	public void animateTick(BlockState state, Level worldIn, BlockPos pos, RandomSource rand) {
-		double d0 = (double)pos.getX() + 0.5D;
-		double d1 = (double)pos.getY() + 0.8D;
-		double d2 = (double)pos.getZ() + 0.5D;
+    return this.defaultBlockState()
+        .setValue(WATERLOGGED, fluid.getType() == Fluids.WATER)
+        .setValue(H_FACING, context.getHorizontalDirection().getOpposite());
+  }
 
-		if (state.getValue(LIT) == true) {
-				if (rand.nextDouble() < 0.1D) {
-					worldIn.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false); }
-		}
-	}
-	
-	@Nullable
-	protected static <T extends BlockEntity> BlockEntityTicker<T> createFurnaceTicker(Level worldIn, BlockEntityType<T> blockEntity, BlockEntityType<? extends AbstractOvenTileEntity> thisType) {
-		return worldIn.isClientSide ? null : createTickerHelper(blockEntity, thisType, AbstractOvenTileEntity::serverTick);
-	}
-	 
-	/* ToolTip */
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag tipFlag) {
-		tooltip.add(Component.translatable("tips.block_kit_oven").withStyle(ChatFormatting.GRAY));
-	}
+  /* HORIZONTAL Property */
+  @Override
+  public BlockState rotate(BlockState state, Rotation rotation) {
+    return state.setValue(H_FACING, rotation.rotate(state.getValue(H_FACING)));
+  }
+
+  @SuppressWarnings("deprecation")
+  public BlockState mirror(BlockState state, Mirror mirror) {
+    return state.rotate(mirror.getRotation(state.getValue(H_FACING)));
+  }
+
+  /* Waterlogged */
+  @SuppressWarnings("deprecation")
+  public FluidState getFluidState(BlockState state) {
+    return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+  }
+
+  @Override
+  public boolean canPlaceLiquid(BlockGetter worldIn, BlockPos pos, BlockState state, Fluid fluid) {
+    return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
+  }
+
+  @Override
+  public boolean placeLiquid(
+      LevelAccessor worldIn, BlockPos pos, BlockState state, FluidState fluid) {
+    if (!state.getValue(BlockStateProperties.WATERLOGGED) && fluid.getType() == Fluids.WATER) {
+      if (!worldIn.isClientSide()) {
+        worldIn.setBlock(
+            pos, state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true)), 3);
+        worldIn.scheduleTick(pos, fluid.getType(), fluid.getType().getTickDelay(worldIn));
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public ItemStack pickupBlock(LevelAccessor worldIn, BlockPos pos, BlockState state) {
+    if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+      worldIn.setBlock(
+          pos, state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)), 3);
+
+      if (!state.canSurvive(worldIn, pos)) {
+        worldIn.destroyBlock(pos, true);
+      }
+      return new ItemStack(Items.WATER_BUCKET);
+    } else {
+      return ItemStack.EMPTY;
+    }
+  }
+
+  @Override
+  public Optional<SoundEvent> getPickupSound() {
+    return Fluids.WATER.getPickupSound();
+  }
+
+  /* Update BlockState. */
+  @SuppressWarnings("deprecation")
+  public BlockState updateShape(
+      BlockState state,
+      Direction facing,
+      BlockState facingState,
+      LevelAccessor worldIn,
+      BlockPos pos,
+      BlockPos facingPos) {
+    if (state.getValue(WATERLOGGED)) {
+      worldIn.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
+    }
+
+    return super.updateShape(state, facing, facingState, worldIn, pos, facingPos);
+  }
+
+  /* Create Blockstate */
+  @Override
+  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    builder.add(H_FACING, LIT, WATERLOGGED);
+  }
+
+  /* If you walk on it while it's burning, you'll take damage. */
+  public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
+
+    if (state.getValue(LIT) == true) {
+      if (!entityIn.fireImmune()
+          && entityIn instanceof LivingEntity
+          && !EnchantmentHelper.hasFrostWalker((LivingEntity) entityIn)) {
+        entityIn.hurt(worldIn.damageSources().hotFloor(), 1.0F);
+      }
+
+      super.stepOn(worldIn, pos, state, entityIn);
+    }
+  }
+
+  /* Play Sound・Particle */
+  @OnlyIn(Dist.CLIENT)
+  public void animateTick(BlockState state, Level worldIn, BlockPos pos, RandomSource rand) {
+    double d0 = (double) pos.getX() + 0.5D;
+    double d1 = (double) pos.getY() + 0.8D;
+    double d2 = (double) pos.getZ() + 0.5D;
+
+    if (state.getValue(LIT) == true) {
+      if (rand.nextDouble() < 0.1D) {
+        worldIn.playLocalSound(
+            d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+      }
+    }
+  }
+
+  @Nullable
+  protected static <T extends BlockEntity> BlockEntityTicker<T> createFurnaceTicker(
+      Level worldIn,
+      BlockEntityType<T> blockEntity,
+      BlockEntityType<? extends AbstractOvenTileEntity> thisType) {
+    return worldIn.isClientSide
+        ? null
+        : createTickerHelper(blockEntity, thisType, AbstractOvenTileEntity::serverTick);
+  }
+
+  /* ToolTip */
+  public void appendHoverText(
+      ItemStack stack,
+      @Nullable BlockGetter worldIn,
+      List<Component> tooltip,
+      TooltipFlag tipFlag) {
+    tooltip.add(Component.translatable("tips.block_kit_oven").withStyle(ChatFormatting.GRAY));
+  }
 }
