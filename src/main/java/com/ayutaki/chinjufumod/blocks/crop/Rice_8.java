@@ -149,11 +149,6 @@ public class Rice_8 extends Block implements net.minecraftforge.common.IPlantabl
 		return Mth.nextInt(worldIn.random, 2, 5);
 	}
 
-	@Override
-	public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState state) {
-		return !this.isMaxAge(state);
-	} // fix 20.2
-
 	public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state) {
 		this.growCrops(worldIn, pos, state);
 	}
