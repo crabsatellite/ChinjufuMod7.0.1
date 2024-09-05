@@ -81,8 +81,8 @@ public class ChinjufuMod {
 
 	public ChinjufuMod() {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config_CM.SPEC, MOD_ID + "_20.2.toml");
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigClient_CM.SPEC, MOD_ID + "_20.2_client.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config_CM.SPEC, MOD_ID + "_20.1.toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigClient_CM.SPEC, MOD_ID + "_20.1_client.toml");
 
 		EntityTypes_CM.ENTITY_TYPES.register(eventBus);
 		BlockEntity_CM.BLOCK_ENTITIES.register(eventBus);
